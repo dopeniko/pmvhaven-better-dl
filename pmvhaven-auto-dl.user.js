@@ -11,11 +11,13 @@
 // @require      https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.min.js#sha512-79j1YQOJuI8mLseq9icSQKT6bLlLtWknKwj1OpJZMdPt2pFBry3vQTt+NZuJw7NSd1pHhZlu0s12Ngqfa371EA==
 // @resource toastify-js.css       https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.min.css#sha512-UiKdzM5DL+I+2YFxK+7TDedVyVm7HMp/bN85NeWMJNYortoll+Nd6PU9ZDrZiaOsdarOyk9egQm6LOJZi36L2g==
 // @run-at       document-idle
+// @downloadURL  https://github.com/dopeniko/pmvhaven-better-dl/raw/refs/heads/main/pmvhaven-auto-dl.user.js
+// @updateURL    https://github.com/dopeniko/pmvhaven-better-dl/raw/refs/heads/main/pmvhaven-auto-dl.user.js
 // ==/UserScript==
 
 /* globals Toastify, TopLoadingBar, keypress */
 
-(function() {
+(function () {
     'use strict';
     // Using debug level here because the main site spams the info log
     function log(m, ...args) { console.debug(`[pmvhaven-auto-dl] ${m}`, ...args); }
@@ -37,7 +39,7 @@
 
     const listener = new keypress.Listener();
     listener.register_combo({
-        "keys" : "v d",
+        "keys": "v d",
         "on_keydown": () => {
             downloadSingleVideo().then(() => TopLoadingBar.set(100)).catch(err => {
                 error("Error during download", err);
@@ -47,7 +49,7 @@
         "prevent_repeat": true
     });
     listener.register_combo({
-        "keys" : "v i",
+        "keys": "v i",
         "on_keydown": () => {
             downloadSingleVideo(true).then(() => TopLoadingBar.set(100)).catch(err => {
                 error("Error during download", err);
@@ -57,7 +59,7 @@
         "prevent_repeat": true
     });
     listener.register_combo({
-        "keys" : "v t",
+        "keys": "v t",
         "on_keydown": () => showToast("Test notification"),
         "prevent_repeat": true
     });
@@ -136,7 +138,7 @@
         delete data.favoritedBy;
         delete data.comments;
         delete data.funScriptLikedBy;
-        saveBlob(new Blob([JSON.stringify(data, null, 2)], { type : 'application/json' }), baseFilename + '.json');
+        saveBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), baseFilename + '.json');
 
         return videoDownload;
     }
