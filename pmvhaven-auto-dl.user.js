@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         PMVHaven Downloader
-// @version      2025-12-07
+// @version      2025-12-12
 // @description  Easy downloading of video and metadata - v+d for video + metadata, v+i for only metadata
 // @match        https://pmvhaven.com/*
 // @grant        GM_download
@@ -82,10 +82,10 @@
     }
 
     async function downloadVideo(videoKey, metadataOnly) {
-        const response = await fetch(`/api/videos/${videoKey}`);
+        const response = await fetch(`/api/videos/${videoKey}/watch-page`);
         if (!response.ok) {
             if (response.status === 401) {
-                showToast("API returned unauthorised. Are you signed in?")
+                showToast("API returned unauthorized. Are you signed in?")
             } else {
                 showToast("Bad response from API, check browser log")
             }
@@ -95,12 +95,12 @@
         const jsonRes = await response.json();
 
         if (!jsonRes) {
-            throw new Error(`Unexpected response from /api/videos/${videoKey}`, jsonRes);
+            throw new Error(`Unexpected response from /api/videos/${videoKey}/watch-page`, jsonRes);
         }
 
         log(`Fetched metadata`);
 
-        const data = jsonRes.data;
+        const data = jsonRes.data.video;
         if (!data || !data.videoUrl) {
             showToast("Invalid JSON response from API, see browser log");
             throw new Error("videoUrl not found in payload", data);
